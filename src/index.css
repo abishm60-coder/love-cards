@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=VT323&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600&family=Share+Tech+Mono&display=swap');
+@import "tailwindcss";
+
+/* Font imports */
+
+/* Dynamic Theme Utilities */
+:root {
+  --color-gold: #d4af37;
+  --color-gold-light: #f3e5ab;
+  --color-burgundy: #58111a;
+  --color-burgundy-dark: #30050a;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Outfit', sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1.0; }
+  100% { opacity: 0.98; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { text-shadow: 0 0 4px #00ff00; }
+  50% { text-shadow: 0 0 12px #00ff00, 0 0 16px #00ff00; }
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+.animate-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+/* CRT monitor curve overlay effect */
+.crt-overlay::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 9999;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+.crt-text-glow {
+  text-shadow: 0 0 6px rgba(0, 255, 0, 0.8);
+}
+
+.crt-border-glow {
+  box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.5), 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+/* Scrollbar styles reactive to current theme */
+.scrollbar-royal::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-royal::-webkit-scrollbar-track {
+  background: #30050a;
+}
+.scrollbar-royal::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 4px;
+}
+
+.scrollbar-crt::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-crt::-webkit-scrollbar-track {
+  background: #000;
+  border: 1px solid #00ff00;
+}
+.scrollbar-crt::-webkit-scrollbar-thumb {
+  background: #00ff00;
+}
+
+.scrollbar-editorial::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-editorial::-webkit-scrollbar-track {
+  background: #fcfbf7;
+}
+.scrollbar-editorial::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+}
