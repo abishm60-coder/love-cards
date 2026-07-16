@@ -49,53 +49,90 @@ export const OpeningEnvelope: React.FC<OpeningEnvelopeProps> = ({
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0, y: -150 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[550px] aspect-square relative flex items-center justify-center p-6 md:p-10 border border-stone-200 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-[500px] aspect-[4/5] sm:aspect-square relative flex items-center justify-center p-4 sm:p-8 border border-stone-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.06)] rounded-sm"
       >
-        <div className="w-full h-full border border-stone-100 flex flex-col justify-between p-6 md:p-8 relative">
+        <div className="w-full h-full border border-stone-100/80 flex flex-col justify-between p-5 sm:p-8 relative">
           
           {/* Card Top Header */}
-          <div className="text-center mt-6">
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-stone-500 font-sans block">
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-center mt-4 sm:mt-6"
+          >
+            <span className="text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.25em] text-stone-400 font-sans block">
               {selectedTheme === 'crt' ? 'SYSTEM // THE CELEBRATION OF LOVE' : 'THE CELEBRATION OF LOVE'}
             </span>
-          </div>
-
+            <div className="w-6 h-[1px] bg-stone-200 mx-auto mt-2" />
+          </motion.div>
+ 
           {/* Card Mid: Happy Couple Names */}
-          <div className="text-center my-4 space-y-2">
-            <h1 className="font-serif text-3xl md:text-4xl text-stone-800 leading-tight">
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-center my-3 sm:my-4 space-y-1.5 sm:space-y-2"
+          >
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-stone-800 leading-snug tracking-wide">
               {displayGroom}
             </h1>
-            <div className="text-stone-400 font-serif italic text-lg my-1">&</div>
-            <h1 className="font-serif text-3xl md:text-4xl text-stone-800 leading-tight">
+            <div className="text-stone-400/80 font-serif italic text-base sm:text-lg my-0.5 sm:my-1">&</div>
+            <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-stone-800 leading-snug tracking-wide">
               {displayBride}
             </h1>
-          </div>
-
+          </motion.div>
+ 
           {/* Card Description */}
-          <div className="text-center max-w-sm mx-auto">
-            <p className="font-serif text-stone-500 text-xs md:text-sm leading-relaxed">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="text-center max-w-xs sm:max-w-sm mx-auto"
+          >
+            <p className="font-serif text-stone-500 text-[11px] sm:text-xs md:text-sm leading-relaxed tracking-wide">
               We warmly welcome you to witness our vows.<br />
               Select the seal below to open your digital wedding card.
             </p>
-          </div>
-
+          </motion.div>
+ 
           {/* Card Bottom: Interactive Wax Seal Button */}
-          <div className="flex flex-col items-center justify-center mb-6">
-            <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onOpen}
-              className="w-14 h-14 rounded-full bg-[#8c7a6b] hover:bg-[#7a6a5d] text-white flex items-center justify-center cursor-pointer shadow-md transition-all relative z-10"
-              aria-label="View Card"
-            >
-              <Sparkles className="w-6 h-6 text-white/90" />
-            </motion.button>
-            <span className="mt-3 text-[10px] uppercase tracking-[0.2em] text-stone-400 font-sans font-semibold">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="flex flex-col items-center justify-center mb-4 sm:mb-6"
+          >
+            <div className="relative">
+              {/* Outer pulsing ring for aesthetic enhancement */}
+              <motion.div 
+                className="absolute inset-0 rounded-full bg-[#8c7a6b]/20"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                animate={{
+                  scale: [1, 1.03, 1],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                onClick={onOpen}
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#8c7a6b] hover:bg-[#7a6a5d] text-white flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-colors relative z-10"
+                aria-label="View Card"
+              >
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-white/95" />
+              </motion.button>
+            </div>
+            <span className="mt-3 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-stone-400 font-sans font-semibold">
               VIEW CARD
             </span>
-          </div>
-
+          </motion.div>
+ 
         </div>
       </motion.div>
 

@@ -11,11 +11,11 @@ import { VirtualGuestbook } from './components/VirtualGuestbook';
 import { DEFAULT_CONFIG, INITIAL_GUESTBOOK } from './data';
 import { WeddingConfig, GuestbookEntry } from './types';
 
-import brideImg from './assets/bride.png';
-import groomImg from './assets/groom.png';
-import gallery1 from './assets/gallery1.png';
-import gallery2 from './assets/gallery2.png';
-import gallery3 from './assets/gallery3.png';
+import brideImg from './assets/bride.jpg';
+import groomImg from './assets/groom.jpg';
+import gallery1 from './assets/gallery1.jpg';
+import gallery2 from './assets/gallery2.jpg';
+import gallery3 from './assets/gallery3.jpg';
 import archImg from './assets/arch.png';
 
 function App() {
@@ -156,11 +156,11 @@ function App() {
                   Together with their families
                 </span>
                 <h1 className="font-serif text-5xl md:text-7xl text-stone-850 leading-tight">
-                  Alexander
+                  {config.groomName}
                 </h1>
                 <div className="text-stone-400 font-serif italic text-2xl my-2">&</div>
                 <h1 className="font-serif text-5xl md:text-7xl text-stone-850 leading-tight">
-                  Evelyn
+                  {config.brideName}
                 </h1>
               </div>
 
@@ -193,34 +193,82 @@ function App() {
             {/* Ceremony and Reception detail blocks side-by-side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto pt-6 border-t border-stone-200/50">
               {/* Ceremony Card block */}
-              <div className="space-y-4 pl-4 border-l border-stone-300">
-                <div className="flex items-center gap-2 text-stone-600">
-                  <Calendar className="w-5 h-5" />
-                  <span className="text-xs uppercase tracking-wider font-semibold">The Wedding Ceremony</span>
+              <div className="space-y-4 pl-4 border-l border-stone-300 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-stone-600">
+                    <Calendar className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider font-semibold">The Wedding Ceremony</span>
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-serif text-lg font-bold text-stone-850">Monday, September 7, 2026</h4>
+                    <p className="text-xs text-stone-400 font-sans tracking-wide">10:00 AM</p>
+                  </div>
+                  <div className="space-y-1 text-xs text-stone-500 font-serif">
+                    <p className="font-bold text-stone-700">{config.ceremonyVenue}</p>
+                    <p>{config.ceremonyAddress}</p>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <h4 className="font-serif text-lg font-bold text-stone-850">Friday, September 18, 2026</h4>
-                  <p className="text-xs text-stone-400 font-sans tracking-wide">16:00</p>
-                </div>
-                <div className="space-y-1 text-xs text-stone-500 font-serif">
-                  <p className="font-bold text-stone-700">The Grand Conservatory</p>
-                  <p>42 Orchid Boulevard, Botanical Gardens</p>
+                <div className="space-y-2 pt-2">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden border border-stone-200 shadow-xs">
+                    <iframe
+                      src="https://maps.google.com/maps?q=The%20St.Roch's%20Church%2C%20Arokiapuram&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen={false}
+                      loading="lazy"
+                      title="Ceremony Location Map"
+                    />
+                  </div>
+                  <a 
+                    href="https://www.google.com/maps/search/St.+Roch's+Church+Arockiapuram" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-1 text-[10px] text-[#8c7a6b] font-sans font-semibold uppercase tracking-wider hover:underline"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    Open in Google Maps
+                  </a>
                 </div>
               </div>
 
               {/* Dinner Reception Card block */}
-              <div className="space-y-4 pl-4 border-l border-stone-300">
-                <div className="flex items-center gap-2 text-stone-600">
-                  <MapPin className="w-5 h-5" />
-                  <span className="text-xs uppercase tracking-wider font-semibold">The Dinner Reception</span>
+              <div className="space-y-4 pl-4 border-l border-stone-300 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-stone-600">
+                    <MapPin className="w-5 h-5" />
+                    <span className="text-xs uppercase tracking-wider font-semibold">The Dinner Reception</span>
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-serif text-lg font-bold text-stone-850">Monday, September 7, 2026</h4>
+                    <p className="text-xs text-stone-400 font-sans tracking-wide">6:00 PM</p>
+                  </div>
+                  <div className="space-y-1 text-xs text-stone-500 font-serif">
+                    <p className="font-bold text-stone-700">{config.receptionVenue}</p>
+                    <p>{config.receptionAddress}</p>
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <h4 className="font-serif text-lg font-bold text-stone-850">Friday, September 18, 2026</h4>
-                  <p className="text-xs text-stone-400 font-sans tracking-wide">18:30</p>
-                </div>
-                <div className="space-y-1 text-xs text-stone-500 font-serif">
-                  <p className="font-bold text-stone-700">The Glass Pavilion Ballroom</p>
-                  <p>42 Orchid Boulevard, Botanical Gardens</p>
+                <div className="space-y-2 pt-2">
+                  <div className="w-full aspect-video rounded-lg overflow-hidden border border-stone-200 shadow-xs">
+                    <iframe
+                      src="https://maps.google.com/maps?q=Alan%20Annai%20Community%20Hall%2C%20Alanvilai&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen={false}
+                      loading="lazy"
+                      title="Reception Location Map"
+                    />
+                  </div>
+                  <a 
+                    href="https://maps.app.goo.gl/b4iVLU3spc2aYgeD8" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-flex items-center gap-1 text-[10px] text-[#8c7a6b] font-sans font-semibold uppercase tracking-wider hover:underline"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    Open in Google Maps
+                  </a>
                 </div>
               </div>
             </div>
@@ -244,16 +292,16 @@ function App() {
                 <div className="w-full max-w-[280px] aspect-[3/4] border border-stone-200 bg-white p-2 shadow-sm">
                   <img 
                     src={groomImg} 
-                    alt="Alexander Wright - The Groom" 
-                    className="w-full h-full object-cover"
+                    alt={`${config.groomName} - The Groom`} 
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-serif text-xl text-stone-850">Alexander Wright</h3>
+                  <h3 className="font-serif text-xl text-stone-850">{config.groomName}</h3>
                   <span className="text-[9px] uppercase tracking-widest text-[#8c7a6b] font-sans font-semibold">THE GROOM</span>
                 </div>
                 <p className="font-serif text-stone-500 text-xs leading-relaxed max-w-xs">
-                  Alexander, with his gentle spirit and supportive nature, stands ready to build a lifetime of beautiful memories side-by-side.
+                  {config.groomName}, with his gentle spirit and supportive nature, stands ready to build a lifetime of beautiful memories side-by-side.
                 </p>
               </div>
 
@@ -262,16 +310,16 @@ function App() {
                 <div className="w-full max-w-[280px] aspect-[3/4] border border-stone-200 bg-white p-2 shadow-sm">
                   <img 
                     src={brideImg} 
-                    alt="Evelyn Sterling - The Bride" 
-                    className="w-full h-full object-cover"
+                    alt={`${config.brideName} - The Bride`} 
+                    className="w-full h-full object-cover object-top"
                   />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-serif text-xl text-stone-850">Evelyn Sterling</h3>
+                  <h3 className="font-serif text-xl text-stone-850">{config.brideName}</h3>
                   <span className="text-[9px] uppercase tracking-widest text-[#8c7a6b] font-sans font-semibold">THE BRIDE</span>
                 </div>
                 <p className="font-serif text-stone-500 text-xs leading-relaxed max-w-xs">
-                  Evelyn, with her radiant warmth and artistic vision, looks forward to stepping into this magical new chapter hand-in-hand.
+                  {config.brideName}, with her radiant warmth and artistic vision, looks forward to stepping into this magical new chapter hand-in-hand.
                 </p>
               </div>
             </div>
@@ -308,30 +356,30 @@ function App() {
               {/* Event 1 */}
               <div className="relative pl-8">
                 <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[#8c7a6b] ring-4 ring-[#faf8f5]" />
-                <span className="text-xs font-semibold text-stone-400 tracking-wider">4:00 PM</span>
+                <span className="text-xs font-semibold text-stone-400 tracking-wider">10:00 AM</span>
                 <h4 className="font-serif text-base font-bold text-stone-850 mt-1">The Wedding Ceremony</h4>
                 <p className="font-serif text-xs text-stone-500 leading-relaxed mt-1">
-                  Witness our exchange of vows amidst the blooming orchids of the Grand Conservatory.
+                  Witness our exchange of vows at {config.ceremonyVenue}, {config.ceremonyAddress}.
                 </p>
               </div>
 
               {/* Event 2 */}
               <div className="relative pl-8">
                 <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[#8c7a6b] ring-4 ring-[#faf8f5]" />
-                <span className="text-xs font-semibold text-stone-400 tracking-wider">5:00 PM</span>
-                <h4 className="font-serif text-base font-bold text-stone-850 mt-1">Cocktails & Garden Mingling</h4>
+                <span className="text-xs font-semibold text-stone-400 tracking-wider">11:30 AM</span>
+                <h4 className="font-serif text-base font-bold text-stone-850 mt-1">Fellowship & Refreshments</h4>
                 <p className="font-serif text-xs text-stone-500 leading-relaxed mt-1">
-                  Enjoy handcrafted botanical refreshments and harp melodies in the rose garden.
+                  Join us for sweet celebrations and greetings in the church hall.
                 </p>
               </div>
 
               {/* Event 3 */}
               <div className="relative pl-8">
                 <div className="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-[#8c7a6b] ring-4 ring-[#faf8f5]" />
-                <span className="text-xs font-semibold text-stone-400 tracking-wider">6:30 PM</span>
-                <h4 className="font-serif text-base font-bold text-stone-850 mt-1">The Grand Reception & Dinner</h4>
+                <span className="text-xs font-semibold text-stone-400 tracking-wider">6:00 PM</span>
+                <h4 className="font-serif text-base font-bold text-stone-850 mt-1">The Dinner Reception</h4>
                 <p className="font-serif text-xs text-stone-500 leading-relaxed mt-1">
-                  A candlelit four-course banquet inside the dazzling Glass Pavilion Ballroom.
+                  A grand dinner and celebration evening at {config.receptionVenue}, {config.receptionAddress}.
                 </p>
               </div>
             </div>
@@ -394,7 +442,7 @@ function App() {
               <Sparkles className="w-6 h-6" />
             </div>
             <h3 className="font-serif text-2xl text-stone-800">
-              Alexander & Evelyn
+              {config.groomName} & {config.brideName}
             </h3>
             <p className="font-serif text-stone-500 text-xs md:text-sm leading-relaxed">
               We can't wait to celebrate this monumental day with our favorite people!<br />
