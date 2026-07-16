@@ -16,7 +16,7 @@ import groomImg from './assets/groom.jpg';
 import gallery1 from './assets/gallery1.jpg';
 import gallery2 from './assets/gallery2.jpg';
 import gallery3 from './assets/gallery3.jpg';
-import archImg from './assets/arch.png';
+import archImg from './assets/arch.jpg';
 
 function App() {
   const [config, setConfig] = useState<WeddingConfig>(DEFAULT_CONFIG);
@@ -335,7 +335,7 @@ function App() {
             </h2>
             <div className="w-12 h-px bg-stone-300 mx-auto my-2" />
             <p className="font-serif text-stone-600 text-sm md:text-base leading-relaxed italic max-w-lg mx-auto">
-              "We met on a rainy Tuesday afternoon at a quaint bookstore in Paris. Both reaching for the last copy of a classic travel novel, our eyes met, and we spent the next four hours talking over warm cups of espresso. That single, beautiful moment turned into years of shared adventures, quiet mornings, and a deep, everlasting love. Now, we are ready to begin our greatest chapter yet."
+              "A simple meeting became a lifelong promise. Together, we've shared laughter, dreams, and countless beautiful memories. Today, we begin our greatest adventure—our forever. ❤️"
             </p>
           </section>
 
@@ -410,7 +410,7 @@ function App() {
                   <img src={gallery2} alt="Paris kiss" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-[10px] font-serif italic text-stone-450 mt-3 text-center block">
-                  The magical moment in Paris
+                  Every Love Story Begins Here
                 </span>
               </div>
 
@@ -420,7 +420,7 @@ function App() {
                   <img src={gallery3} alt="Garden hold" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-[10px] font-serif italic text-stone-450 mt-3 text-center block">
-                  Quiet mornings in our home garden
+                  Together, Forever & Always
                 </span>
               </div>
             </div>
@@ -448,34 +448,12 @@ function App() {
               We can't wait to celebrate this monumental day with our favorite people!<br />
               Thank you for being a part of our beautiful journey.
             </p>
-            
-            {/* Contact details */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-2 text-stone-500 text-xs font-sans">
-              <span className="flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5" />
-                <span>+1 (555) 019-2834</span>
-              </span>
-              <span className="hidden sm:inline text-stone-300">|</span>
-              <span className="flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5" />
-                <span>celebration@alexander-evelyn.com</span>
-              </span>
-            </div>
+
           </section>
 
-          {/* Footer details */}
-          <footer className="text-center pb-12 opacity-65 text-[10px] uppercase tracking-[0.2em] font-sans text-stone-400">
-            WEDDING STATIONERY CARD &bull; EDITORIAL COLLECTION &bull; {new Date().getFullYear()}
-          </footer>
 
-          {/* Floating Configurator Toggle Button */}
-          <button
-            onClick={() => setIsConfigOpen(true)}
-            className={`fixed bottom-6 right-6 z-30 p-3 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-95 ${classes.btnFloat}`}
-            aria-label="Open wedding parameters panel"
-          >
-            <Settings className="w-6 h-6 animate-spin-slow" />
-          </button>
+
+
 
           {/* Side Drawer Configurator Component */}
           <LiveConfigurator

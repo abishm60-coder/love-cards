@@ -35,14 +35,7 @@ export const OpeningEnvelope: React.FC<OpeningEnvelopeProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#faf8f5] overflow-hidden">
-      {/* Top Left: Customize Card button */}
-      <button
-        onClick={onOpenConfig}
-        className="absolute top-6 left-6 z-50 flex items-center gap-2 bg-black text-white hover:bg-stone-850 px-4 py-2.5 rounded-full text-xs font-semibold shadow-md active:scale-95 transition-all"
-      >
-        <Settings className="w-4 h-4" />
-        <span>Customize Card</span>
-      </button>
+
 
       {/* Main invitation Card Container */}
       <motion.div
@@ -136,14 +129,7 @@ export const OpeningEnvelope: React.FC<OpeningEnvelopeProps> = ({
         </div>
       </motion.div>
 
-      {/* Bottom Right: Play Music Button (Mock/Interactive overlay indicator) */}
-      <button
-        onClick={onOpen}
-        className="absolute bottom-6 right-6 z-50 flex items-center gap-2 bg-[#8c7a6b] text-white hover:bg-[#7a6a5d] px-4 py-2.5 rounded-full text-xs font-semibold shadow-md active:scale-95 transition-all"
-      >
-        <Music className="w-4 h-4" />
-        <span>Play Music</span>
-      </button>
+
     </div>
   );
 };
