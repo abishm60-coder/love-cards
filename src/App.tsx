@@ -23,6 +23,7 @@ function App() {
   const [isOpenEnvelope, setIsOpenEnvelope] = useState(true);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(INITIAL_GUESTBOOK);
+  const [playMusic, setPlayMusic] = useState(false);
 
   // Generate gentle ambient floating particles for Royal Luxury theme
   const [particles, setParticles] = useState<{ id: number; left: string; size: string; delay: string; duration: string }[]>([]);
@@ -127,7 +128,10 @@ function App() {
             brideName={config.brideName}
             groomName={config.groomName}
             selectedTheme={config.selectedTheme}
-            onOpen={() => setIsOpenEnvelope(false)}
+            onOpen={() => {
+              setIsOpenEnvelope(false);
+              setPlayMusic(true);
+            }}
             onOpenConfig={() => setIsConfigOpen(true)}
           />
         )}
@@ -463,6 +467,16 @@ function App() {
             onUpdateConfig={handleUpdateConfig}
           />
         </motion.div>
+      )}
+      {playMusic && (
+        <iframe
+          width="0"
+          height="0"
+          src="https://www.youtube.com/embed/jVuT6llyP44?autoplay=1&start=37&loop=1&playlist=jVuT6llyP44"
+          allow="autoplay"
+          className="hidden pointer-events-none absolute w-0 h-0"
+          title="Background Music"
+        />
       )}
     </div>
   );
