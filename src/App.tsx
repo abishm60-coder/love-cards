@@ -471,11 +471,19 @@ function App() {
 
           {/* Developer Signature Footer */}
           <footer className="mt-20 pt-10 border-t border-stone-200/40 w-full flex flex-col items-center justify-center space-y-3">
-            <div className="flex items-center space-x-2 text-stone-400 text-[10px] md:text-xs tracking-[0.2em] uppercase font-medium">
+            <div className="flex items-center space-x-2.5 text-stone-400 text-[10px] md:text-xs tracking-[0.2em] uppercase font-medium">
               <span>Designed & Developed by</span>
-              <span className="bg-[#8c7a6b]/5 text-[#8c7a6b] font-bold px-3 py-1 rounded-full border border-[#8c7a6b]/20 tracking-[0.1em] transition-all cursor-default">
-                Abish M Dev
-              </span>
+              <a 
+                href="https://www.linkedin.com/in/abish-m" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center space-x-1.5 bg-[#8c7a6b]/5 hover:bg-[#8c7a6b]/10 text-[#8c7a6b] font-bold px-3 py-1 rounded-full border border-[#8c7a6b]/20 tracking-[0.1em] transition-all hover:scale-105"
+              >
+                <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+                <span>Abish M Dev</span>
+              </a>
             </div>
             <p className="text-[9px] text-stone-400 tracking-wider">
               &copy; 2026 Abish M Dev. All Rights Reserved.
