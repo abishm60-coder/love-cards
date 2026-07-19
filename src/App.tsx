@@ -22,7 +22,22 @@ function App() {
   const [config, setConfig] = useState<WeddingConfig>(DEFAULT_CONFIG);
   const [isOpenEnvelope, setIsOpenEnvelope] = useState(true);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(INITIAL_GUESTBOOK);
+  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(() => {
+    const saved = localStorage.getItem('wedding_guestbook_entries');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error('Failed to parse saved guestbook entries', e);
+      }
+    }
+    return INITIAL_GUESTBOOK;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('wedding_guestbook_entries', JSON.stringify(guestbookEntries));
+  }, [guestbookEntries]);
+
   const [playMusic, setPlayMusic] = useState(false);
 
   // Generate gentle ambient floating particles for Royal Luxury theme
@@ -452,8 +467,20 @@ function App() {
               We can't wait to celebrate this monumental day with our favorite people!<br />
               Thank you for being a part of our beautiful journey.
             </p>
-
           </section>
+
+          {/* Developer Signature Footer */}
+          <footer className="mt-20 pt-10 border-t border-stone-200/40 w-full flex flex-col items-center justify-center space-y-3">
+            <div className="flex items-center space-x-2 text-stone-400 text-[10px] md:text-xs tracking-[0.2em] uppercase font-medium">
+              <span>Designed & Developed by</span>
+              <span className="bg-[#8c7a6b]/5 text-[#8c7a6b] font-bold px-3 py-1 rounded-full border border-[#8c7a6b]/20 tracking-[0.1em] transition-all cursor-default">
+                Abish M Dev
+              </span>
+            </div>
+            <p className="text-[9px] text-stone-400 tracking-wider">
+              &copy; 2026 Abish M Dev. All Rights Reserved.
+            </p>
+          </footer>
 
 
 
