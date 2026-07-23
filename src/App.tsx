@@ -18,25 +18,62 @@ import gallery2 from './assets/gallery2.jpg';
 import gallery3 from './assets/gallery3.jpg';
 import archImg from './assets/arch.jpg';
 
+import { supabase } from './supabaseClient';
+
 function App() {
   const [config, setConfig] = useState<WeddingConfig>(DEFAULT_CONFIG);
   const [isOpenEnvelope, setIsOpenEnvelope] = useState(true);
   const [isConfigOpen, setIsConfigOpen] = useState(false);
-  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(() => {
-    const saved = localStorage.getItem('wedding_guestbook_entries');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        console.error('Failed to parse saved guestbook entries', e);
-      }
-    }
-    return INITIAL_GUESTBOOK;
-  });
+  const [guestbookEntries, setGuestbookEntries] = useState<GuestbookEntry[]>(INITIAL_GUESTBOOK);
 
+  // Fetch comments from Supabase database when app loads
   useEffect(() => {
-    localStorage.setItem('wedding_guestbook_entries', JSON.stringify(guestbookEntries));
-  }, [guestbookEntries]);
+    const fetchEntries = async () => {
+      const { data, error } = await supabase
+        .from('guestbook')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching guestbook entries:', error.message);
+        // Fallback to local storage if database is offline or not configured yet
+        const saved = localStorage.getItem('wedding_guestbook_entries');
+        if (saved) {
+          try { setGuestbookEntries(JSON.parse(saved)); } catch (e) {}
+        }
+      } else if (data) {
+        // Map database fields to GuestbookEntry format
+        const localLikedIds = JSON.parse(localStorage.getItem('liked_notes') || '[]');
+        const mapped: GuestbookEntry[] = data.map(item => ({
+          id: String(item.id),
+          name: item.name,
+          message: item.message,
+          likes: item.likes || 0,
+          timestamp: item.created_at || new Date().toISOString(),
+          likedByCurrentUser: localLikedIds.includes(String(item.id))
+        }));
+        setGuestbookEntries(mapped);
+      }
+    };
+
+    fetchEntries();
+
+    // Subscribe to realtime updates if enabled in Supabase
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'guestbook' },
+        () => {
+          fetchEntries();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   const [playMusic, setPlayMusic] = useState(false);
 
@@ -62,35 +99,93 @@ function App() {
     setConfig(prev => ({ ...prev, ...updated }));
   };
 
-  const handleAddGuestbookEntry = (name: string, message: string) => {
+  const handleAddGuestbookEntry = async (name: string, message: string) => {
+    const tempId = String(Date.now());
     const newEntry: GuestbookEntry = {
-      id: String(Date.now()),
+      id: tempId,
       name,
       message,
       likes: 0,
       timestamp: new Date().toISOString(),
     };
+
+    // Optimistic UI update
     setGuestbookEntries(prev => [newEntry, ...prev]);
+    localStorage.setItem('wedding_guestbook_entries', JSON.stringify([newEntry, ...guestbookEntries]));
+
+    const { data, error } = await supabase
+      .from('guestbook')
+      .insert([{ name, message, likes: 0 }])
+      .select();
+
+    if (error) {
+      console.error('Error inserting comment:', error.message);
+    } else if (data && data[0]) {
+      // Replace temporary entry with final database record
+      setGuestbookEntries(prev =>
+        prev.map(item => item.id === tempId ? {
+          ...item,
+          id: String(data[0].id),
+          timestamp: data[0].created_at
+        } : item)
+      );
+    }
   };
 
-  const handleRemoveGuestbookEntry = (id: string) => {
+  const handleRemoveGuestbookEntry = async (id: string) => {
     setGuestbookEntries(prev => prev.filter(entry => entry.id !== id));
+    
+    // Check if ID is numeric (from database)
+    const dbId = parseInt(id, 10);
+    if (!isNaN(dbId)) {
+      const { error } = await supabase
+        .from('guestbook')
+        .delete()
+        .eq('id', dbId);
+      if (error) {
+        console.error('Error deleting comment:', error.message);
+      }
+    }
   };
 
-  const handleLikeGuestbookEntry = (id: string) => {
+  const handleLikeGuestbookEntry = async (id: string) => {
+    let newLikes = 0;
+    let isLikedNow = false;
+
     setGuestbookEntries(prev =>
       prev.map(entry => {
         if (entry.id === id) {
           const alreadyLiked = entry.likedByCurrentUser;
+          isLikedNow = !alreadyLiked;
+          newLikes = alreadyLiked ? Math.max(0, entry.likes - 1) : entry.likes + 1;
           return {
             ...entry,
-            likes: alreadyLiked ? entry.likes - 1 : entry.likes + 1,
-            likedByCurrentUser: !alreadyLiked
+            likes: newLikes,
+            likedByCurrentUser: isLikedNow
           };
         }
         return entry;
       })
     );
+
+    // Save likes local history
+    const localLikedIds = JSON.parse(localStorage.getItem('liked_notes') || '[]');
+    if (isLikedNow) {
+      if (!localLikedIds.includes(id)) localLikedIds.push(id);
+    } else {
+      const idx = localLikedIds.indexOf(id);
+      if (idx > -1) localLikedIds.splice(idx, 1);
+    }
+    localStorage.setItem('liked_notes', JSON.stringify(localLikedIds));
+
+    // Update remote Supabase database
+    const dbId = parseInt(id, 10);
+    if (!isNaN(dbId)) {
+      await supabase
+        .from('guestbook')
+        .update({ likes: newLikes })
+        .eq('id', dbId);
+    }
   };
 
   // Get theme-reactive classNames
