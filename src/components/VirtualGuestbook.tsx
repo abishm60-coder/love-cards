@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { Heart, Trash2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { GuestbookEntry, ThemeType } from '../types';
 
@@ -8,6 +8,7 @@ interface VirtualGuestbookProps {
   entries: GuestbookEntry[];
   selectedTheme: ThemeType;
   onAddEntry: (name: string, message: string) => void;
+  onRemoveEntry?: (id: string) => void;
   onLikeEntry: (id: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const VirtualGuestbook: React.FC<VirtualGuestbookProps> = ({
   entries,
   selectedTheme,
   onAddEntry,
+  onRemoveEntry,
   onLikeEntry,
 }) => {
   const [name, setName] = useState('');
@@ -110,17 +112,29 @@ export const VirtualGuestbook: React.FC<VirtualGuestbookProps> = ({
                   </span>
                 </div>
 
-                <button
-                  onClick={(e) => handleLike(e, entry.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded ${
-                    entry.likedByCurrentUser 
-                      ? 'bg-red-50 text-red-500 border border-red-100' 
-                      : 'bg-stone-50 text-stone-500 hover:bg-stone-100 border border-stone-100'
-                  } transition-colors`}
-                >
-                  <Heart className={`w-3.5 h-3.5 ${entry.likedByCurrentUser ? 'fill-current' : ''}`} />
-                  <span>{entry.likes}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  {onRemoveEntry && (
+                    <button
+                      onClick={() => onRemoveEntry(entry.id)}
+                      className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                      title="Delete wish note"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+
+                  <button
+                    onClick={(e) => handleLike(e, entry.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded ${
+                      entry.likedByCurrentUser 
+                        ? 'bg-red-50 text-red-500 border border-red-100' 
+                        : 'bg-stone-50 text-stone-500 hover:bg-stone-100 border border-stone-100'
+                    } transition-colors`}
+                  >
+                    <Heart className={`w-3.5 h-3.5 ${entry.likedByCurrentUser ? 'fill-current' : ''}`} />
+                    <span>{entry.likes}</span>
+                  </button>
+                </div>
               </div>
               <p className="mt-3 text-stone-600 text-xs italic font-serif leading-relaxed">
                 "{entry.message}"

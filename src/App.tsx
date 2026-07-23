@@ -73,6 +73,10 @@ function App() {
     setGuestbookEntries(prev => [newEntry, ...prev]);
   };
 
+  const handleRemoveGuestbookEntry = (id: string) => {
+    setGuestbookEntries(prev => prev.filter(entry => entry.id !== id));
+  };
+
   const handleLikeGuestbookEntry = (id: string) => {
     setGuestbookEntries(prev =>
       prev.map(entry => {
@@ -451,6 +455,7 @@ function App() {
               entries={guestbookEntries}
               selectedTheme={config.selectedTheme}
               onAddEntry={handleAddGuestbookEntry}
+              onRemoveEntry={handleRemoveGuestbookEntry}
               onLikeEntry={handleLikeGuestbookEntry}
             />
           </section>
